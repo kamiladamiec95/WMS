@@ -4,3 +4,5 @@ Bluza;Puma;Czarna;233 zl
 Buty;Adidas;Czarne;251 zl
 Koszulka;Nike;Biala;150 zl
 Bluza;Puma;Czarna;233 zl  
+cos;test;123;1000 zlhh;aa;bb;111
+vvv;aa;qwe;21312

@@ -1,12 +1,10 @@
 from os import system, name
-import psycopg2
+import Document
+import Database
 
 sql = "INSERT INTO products(name, category) VALUES(%s,%s)"
 
-#establishing the connection
-conn = psycopg2.connect(
-   database="wms", user='postgres', password='postgres', host='127.0.0.1', port= '5432'
-)
+conn = Database.connect_database()
 
 cursor = conn.cursor()
 
