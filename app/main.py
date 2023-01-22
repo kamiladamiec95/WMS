@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired
 import sqlite3
 from faker import Faker
 from flask_sqlalchemy import SQLAlchemy
+
 # from flask_login import UserMixin, login_user, loginManager, login_required, logout_user, current_user
 
 app = Flask(__name__)
@@ -29,6 +30,44 @@ class Users(db.Model):
 
     def __repr__(self):
         return '<Name %r>' % self.name
+
+class WarehouseReleases(db.Model):
+    _id = db.Column("id",db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+
+    def __repr__(self):
+        return '<Name %r>' % self.name
+
+class Products(db.Model):
+    _id = db.Column("id",db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+
+    def __repr__(self):
+        return '<Name %r>' % self.name
+
+
+class Przyjecia(db.Model):
+    _id = db.Column("id",db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
+
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+
+    def __repr__(self):
+        return '<Name %r>' % self.name           
+
 
 class LoginForm(FlaskForm):
     login = StringField("Login")
@@ -68,19 +107,21 @@ result = user.query.all()
 for i in result:
     print(i.__dict__)
 
+# @login.required
 @app.route("/", methods=['GET', 'POST'])
 def home():
     # login = 'test'
     form = LoginForm()#request.form)
     # print(form.validate_on_submit())
-    
+    print(form.validate_on_submit())
+    # if request.method == 'POST':
     if form.validate_on_submit():
         print('test123')
         login = form.login.data 
         # if login == 'test':
         return redirect(url_for("nav"))
     print(form.errors)        
-    return render_template("home3.html", form=form)
+    return render_template("home2.html", form=form)
 
 
 @app.route("/add_user", methods=['GET', 'POST'])
@@ -111,9 +152,15 @@ def nav():
 
 @app.route("/users")
 def users():
+    form = AddUser()
+    result = list(user.query.all())
     users = ['Adam', 'Kamil']
-    return render_template("users.html", users= users)
+    return render_template("users.html", users= result,form=form)
 
+
+@app.route("/test")
+def test():
+    return render_template("test.html")
 
 @app.errorhandler(404)
 def page_not_found(e):
