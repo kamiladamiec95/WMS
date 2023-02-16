@@ -1,6 +1,0 @@
-Buty;Adidas;Czarne;251 zl
-Koszulka;Nike;Biala;150 zl
-Bluza;Puma;Czarna;233 zl  
-Buty;Adidas;Czarne;251 zl
-Koszulka;Nike;Biala;150 zl
-Bluza;Puma;Czarna;233 zl  
