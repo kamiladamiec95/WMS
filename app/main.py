@@ -19,6 +19,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users2.db'
 
 db = SQLAlchemy(app)
 
+
 class Users(db.Model):
     _id = db.Column("id",db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
@@ -88,24 +89,24 @@ users = []
 # db.session.add(user)
 # db.session.commit()
 
-faker = Faker()
+# faker = Faker()
 
-user = Users(name=faker.name(),
-            email=faker.email())
-db.session.add(user)
-users.append(user.name)
-db.session.commit()
+# user = Users(name=faker.name(),
+#             email=faker.email())
+# db.session.add(user)
+# users.append(user.name)
+# db.session.commit()
 
-user = Users(name=faker.name(),
-            email=faker.email())
-db.session.add(user)
-users.append(user.name)
+# user = Users(name=faker.name(),
+#             email=faker.email())
+# db.session.add(user)
+# users.append(user.name)
 
-db.session.commit()
+# db.session.commit()
 
-result = user.query.all()
-for i in result:
-    print(i.__dict__)
+# result = user.query.all()
+# for i in result:
+#     print(i.__dict__)
 
 # @login.required
 @app.route("/", methods=['GET', 'POST'])
@@ -118,6 +119,7 @@ def home():
     if form.validate_on_submit():
         print('test123')
         login = form.login.data 
+        print(login)
         # if login == 'test':
         return redirect(url_for("nav"))
     print(form.errors)        
@@ -132,7 +134,8 @@ def add_user():
     
     if form.validate_on_submit():
         print('test123')
-        login = form.login.data 
+        login = form.login.data
+        print(login) 
         # if login == 'test':
         flash('User added successfully')
         flash('User added successfully2')
@@ -150,12 +153,20 @@ def nav():
     return render_template("navigationBar.html")
 
 
-@app.route("/users")
+@app.route("/users", methods = ['POST', 'GET'])
 def users():
     form = AddUser()
     result = list(user.query.all())
-    users = ['Adam', 'Kamil']
-    return render_template("users.html", users= result,form=form)
+    print('test xxx')
+    if request.method == 'POST':
+        userAdd = Users(form.login.data, form.password.data)
+        db.session.add(userAdd)
+        db.session.commit()
+        for r in result:    
+            db.session.refresh(r)
+        print('test123')
+        return redirect(url_for("users"))
+    return render_template("users.html", users=result, form=form)
 
 
 @app.route("/test")
